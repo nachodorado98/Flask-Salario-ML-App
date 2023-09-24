@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SalariApp</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='inicio.css') }}">
+    <script>
+    function updateOutput(val) {
+        document.querySelector("output[for='experiencia']").textContent = val;
+    }
+    </script>
+</head>
+<body>
+    <div class="contenedor">
+        <h1>SalariApp</h1>
+        <h2>
+            La aplicacion que te indica cuanto debes estar ganando segun tus datos. ¡No cobres menos de lo que mereces!
+        </h2>
+        <p>Ingresa tus datos a continuación</p>
+
+        <form method="POST" action="/">
+
+            <label for="pais">Pais</label>
+            <select id="pais" name="pais">
+                {% for pais in paises %}
+                <option value="{{ pais }}">{{ pais }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="estudios">Estudios</label>
+            <select id="estudios" name="estudios">
+                {% for estudio in estudios %}
+                <option value="{{ estudio }}">{{ estudio }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="experiencia">Años de Experiencia: <output for="experiencia">3</output></label>
+            <input type="range" id="experiencia" name="experiencia" min="0" max="50" value="3" oninput="updateOutput(this.value)">
+
+            <button type="submit">Calcular</button>
+        </form>
+
+        {% if prediccion %}
+            <p>El salario estimado segun tus datos es de {{ prediccion }}$</p>
+        {% endif %}
+
+    </div>
+</body>
+</html>
